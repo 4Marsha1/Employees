@@ -5,13 +5,14 @@ import { fetchDetails } from '../redux/actions/fetchDetails';
 import { TreeView, TreeItem } from '@mui/lab';
 import { ChevronRightOutlined, ExpandMoreOutlined } from '@mui/icons-material';
 import { Box } from '@mui/system';
+import { Link } from 'react-router-dom';
 
 const HierarchyTree = () => {
     const employees = useSelector(state => state.employeeDetailsReducer.employeeDetails);
     const dispatch = useDispatch();
     const [tree, setTree] = useState([]);
 
-    function unflatten(items) {
+    const unflatten = (items) => {
         var tree = [], mappedArr = {}, mappedElem
         items.forEach(function (item) {
             var id = item.id;
@@ -58,7 +59,8 @@ const HierarchyTree = () => {
     }, [employees])
 
     const renderTree = (nodes) => {
-        return <TreeItem key={nodes.id} nodeId={nodes.id.substring(3)} label={nodes.first_name}>
+        return <TreeItem key={nodes.id} nodeId={nodes.id.substring(3)}
+            label={nodes.first_name + " " + nodes.last_name + " " + "(" + nodes.id + ")"}>
             {Array.isArray(nodes.children)
                 ? nodes.children.map((node) => renderTree(node))
                 : null}
@@ -78,6 +80,13 @@ const HierarchyTree = () => {
             >
                 {tree.length > 0 ? renderTree(tree[0]) : null}
             </TreeView>
+            <Link to='/'
+                style={{
+                    textDecoration: 'none', background: '#4087FF', padding: '0.4rem 1rem',
+                    color: 'white', borderRadius: '4px', width: '200px'
+                }}>
+                Back to Employee Table
+            </Link>
         </Box>
     );
 }

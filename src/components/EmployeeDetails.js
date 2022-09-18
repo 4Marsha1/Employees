@@ -7,6 +7,7 @@ import { TableContainer } from '@mui/material';
 import { TableHead } from '@mui/material';
 import { TableRow } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const TABLE_HEADERS = [
     "FIELD",
@@ -82,6 +83,13 @@ const EmployeeDetails = () => {
                     }
                 </Table>
             </TableContainer>
+            <Link to='/'
+                style={{
+                    textDecoration: 'none', background: '#4087FF', padding: '0.4rem 1rem',
+                    color: 'white', borderRadius: '4px', width: '200px'
+                }}>
+                Back to Employee Table
+            </Link>
         </Box>
     )
 }
