@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 
 const HierarchyTree = () => {
     const dispatch = useDispatch();
-    ß
+
     const employees = useSelector(state => state.employeeDetailsReducer.employeeDetails);
     const [tree, setTree] = useState([]);
 
