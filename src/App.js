@@ -1,5 +1,5 @@
 import { Provider } from "react-redux";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import EmployeeDetails from "./components/EmployeeDetails";
 import EmployeeTable from "./components/EmployeeTable";
 import HierarchyTree from "./components/HierarchyTree";
@@ -25,6 +25,7 @@ const App = () => {
                         path="/hierarchy_tree"
                         element={<HierarchyTree />}
                     />
+                    <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </BrowserRouter>
         </Provider>

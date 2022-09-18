@@ -157,9 +157,10 @@ const EmployeeTable = () => {
 
     return (
         <>
-            <Box display="flex" justifyContent="flex-end" pt="1rem" pb="0.5rem" pr="0.5rem">
-                <Link to='/hierarchy_tree'>
-                    Hierarchy Tree
+            <Box display="flex" justifyContent="flex-end" pt="1rem" pb="0.5rem" pr="0.5rem" gap="1rem">
+                <Link to='/hierarchy_tree'
+                    style={{ textDecoration: 'none', background: '#4087FF', padding: '0.4rem 1rem', color: 'white', borderRadius: '4px' }}>
+                    View Hierarchy Tree
                 </Link>
                 <Tooltip title="Filter Details" arrow placement={"bottom"}>
                     <input
