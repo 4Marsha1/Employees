@@ -8,8 +8,9 @@ import { Box } from '@mui/system';
 import { Link } from 'react-router-dom';
 
 const HierarchyTree = () => {
-    const employees = useSelector(state => state.employeeDetailsReducer.employeeDetails);
     const dispatch = useDispatch();
+    ß
+    const employees = useSelector(state => state.employeeDetailsReducer.employeeDetails);
     const [tree, setTree] = useState([]);
 
     const unflatten = (items) => {
