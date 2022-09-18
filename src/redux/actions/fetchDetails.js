@@ -15,7 +15,8 @@ export const fetchDetails = () => async (dispatch) => {
     } catch (err) {
         console.log(err.message);
         dispatch({
-            type: FETCH_EMPLOYEE_DETAILS_FAILED
+            type: FETCH_EMPLOYEE_DETAILS_FAILED,
+            payload: err.message
         })
     }
 }

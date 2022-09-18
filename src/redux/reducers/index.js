@@ -1,6 +1,8 @@
 import { combineReducers } from "redux";
 import employeeDetails from "./fetchDetails";
+import employee from './fetchEmployee';
 
 export default combineReducers({
-    employeeReducer: employeeDetails
+    employeeDetailsReducer: employeeDetails,
+    employeeReducer: employee
 })

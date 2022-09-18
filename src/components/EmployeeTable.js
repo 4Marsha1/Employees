@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDetails } from '../redux/actions/fetchDetails';
+import { fetchEmployee } from '../redux/actions/fetchEmployee';
 
-import { Box, CircularProgress, Table, TextField } from '@mui/material';
+import { Box, CircularProgress, Table } from '@mui/material';
 import { TableBody } from '@mui/material';
 import { TableCell } from '@mui/material';
 import { TableContainer } from '@mui/material';
@@ -10,8 +11,10 @@ import { TableHead } from '@mui/material';
 import { TableRow } from '@mui/material';
 import { Paper } from '@mui/material';
 
+import { Link } from 'react-router-dom';
+
 const TABLE_HEADERS = [
-    'ID',
+    "ID",
     "MANAGER ID",
     "FIRST NAME",
     "LAST NAME",
@@ -23,8 +26,8 @@ const TABLE_HEADERS = [
 ]
 
 const EmployeeTable = () => {
-    const employees = useSelector(state => state.employeeReducer.employeeDetails);
-    const loading = useSelector(state => state.employeeReducer.loading);
+    const employees = useSelector(state => state.employeeDetailsReducer.employeeDetails);
+    const loading = useSelector(state => state.employeeDetailsReducer.loading);
 
     const dispatch = useDispatch();
 
@@ -314,7 +317,12 @@ const EmployeeTable = () => {
                                 filteredEmployeeData.length > 0 ?
                                     filteredEmployeeData.map((employee) => (
                                         <TableRow key={employee.id}>
-                                            <TableCell style={{ color: "#4087FF", fontWeight: 'bold' }}>{employee.id}</TableCell>
+                                            {
+                                                employee.details ?
+                                                    <Link to='/employee' onClick={() => dispatch(fetchEmployee(employee.first_name))}>
+                                                        <TableCell style={{ color: "#4087FF", fontWeight: 'bold' }}>{employee.id}</TableCell>
+                                                    </Link> : <TableCell style={{ color: "black", fontWeight: 'bold' }}>{employee.id}</TableCell>
+                                            }
                                             <TableCell>{employee.manager_id}</TableCell>
                                             <TableCell style={{ color: 'teal', fontWeight: '700' }}>{employee.first_name}</TableCell>
                                             <TableCell style={{ color: 'teal', fontWeight: '700' }}>{employee.last_name}</TableCell>
