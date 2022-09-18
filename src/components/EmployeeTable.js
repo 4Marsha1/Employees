@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchDetails } from '../redux/actions/fetchDetails';
 import { fetchEmployee } from '../redux/actions/fetchEmployee';
 
-import { Box, CircularProgress, Table } from '@mui/material';
+import { Box, CircularProgress, Table, Tooltip } from '@mui/material';
 import { TableBody } from '@mui/material';
 import { TableCell } from '@mui/material';
 import { TableContainer } from '@mui/material';
@@ -15,14 +15,13 @@ import { Link } from 'react-router-dom';
 
 const TABLE_HEADERS = [
     "ID",
-    "MANAGER ID",
     "FIRST NAME",
     "LAST NAME",
     "DATE OF BIRTH",
-    "DATE OF JOINING",
     "ADDRESS",
-    "DESIGNATION",
-    "SALARY"
+    "DATE OF JOINING",
+    "SALARY",
+    "DESIGNATION"
 ]
 
 const EmployeeTable = () => {
@@ -33,7 +32,7 @@ const EmployeeTable = () => {
 
     const [employeeData, setEmployeeData] = useState([]);
     const [filteredEmployeeData, setFilteredEmployeeData] = useState([]);
-    const [order, setOrder] = useState(true);
+    const [order, setOrder] = useState(false);
 
     useEffect(() => {
         dispatch(fetchDetails());
@@ -67,6 +66,18 @@ const EmployeeTable = () => {
         }
     };
 
+    const compare = (a, b) => {
+        var textA = a.toUpperCase();
+        var textB = b.toUpperCase();
+        if (textA > textB) {
+            return 1;
+        }
+        if (textB > textA) {
+            return -1;
+        }
+        return 0;
+    }
+
     const handleSort = (columnName) => {
         setOrder(!order);
         var arr = filteredEmployeeData.slice();
@@ -74,205 +85,69 @@ const EmployeeTable = () => {
         if (order) {
             if (columnName === "ID") {
                 sorted = arr.sort((a, b) => {
-                    var textA = a.id.toUpperCase();
-                    var textB = b.id.toUpperCase();
-                    if (textA > textB) {
-                        return 1;
-                    }
-                    if (textB > textA) {
-                        return -1;
-                    }
-                    return 0;
-                });
-            } else if (columnName === "MANAGER ID") {
-                sorted = arr.sort((a, b) => {
-                    var textA = a.manager_id.toUpperCase();
-                    var textB = b.manager_id.toUpperCase();
-                    if (textA > textB) {
-                        return 1;
-                    }
-                    if (textB > textA) {
-                        return -1;
-                    }
-                    return 0;
+                    return compare(a.id, b.id);
                 });
             } else if (columnName === "FIRST NAME") {
                 sorted = arr.sort((a, b) => {
-                    var textA = a.first_name.toUpperCase();
-                    var textB = b.first_name.toUpperCase();
-                    if (textA > textB) {
-                        return 1;
-                    }
-                    if (textB > textA) {
-                        return -1;
-                    }
-                    return 0;
+                    return compare(a.first_name, b.first_name);
                 });
             } else if (columnName === "LAST NAME") {
                 sorted = arr.sort((a, b) => {
-                    var textA = a.last_name.toUpperCase();
-                    var textB = b.last_name.toUpperCase();
-                    if (textA > textB) {
-                        return 1;
-                    }
-                    if (textB > textA) {
-                        return -1;
-                    }
-                    return 0;
+                    return compare(a.last_name, b.last_name);
                 });
             } else if (columnName === "DATE OF BIRTH") {
                 sorted = arr.sort((a, b) => {
-                    var textA = a.date_of_birth.toUpperCase();
-                    var textB = b.date_of_birth.toUpperCase();
-                    if (textA > textB) {
-                        return 1;
-                    }
-                    if (textB > textA) {
-                        return -1;
-                    }
-                    return 0;
+                    return compare(a.date_of_birth, b.date_of_birth);
                 });
             } else if (columnName === "DATE OF JOINING") {
                 sorted = arr.sort((a, b) => {
-                    var textA = a.date_of_joining.toUpperCase();
-                    var textB = b.date_of_joining.toUpperCase();
-                    if (textA > textB) {
-                        return 1;
-                    }
-                    if (textB > textA) {
-                        return -1;
-                    }
-                    return 0;
+                    return compare(a.date_of_joining, b.date_of_joining);
                 });
             } else if (columnName === "ADDRESS") {
                 sorted = arr.sort((a, b) => {
-                    var textA = a.address.toUpperCase();
-                    var textB = b.address.toUpperCase();
-                    if (textA > textB) {
-                        return 1;
-                    }
-                    if (textB > textA) {
-                        return -1;
-                    }
-                    return 0;
+                    return compare(a.address, b.address);
                 });
             } else if (columnName === "DESIGNATION") {
                 sorted = arr.sort((a, b) => {
-                    var textA = a.designation.toUpperCase();
-                    var textB = b.designation.toUpperCase();
-                    if (textA > textB) {
-                        return 1;
-                    }
-                    if (textB > textA) {
-                        return -1;
-                    }
-                    return 0;
+                    return compare(a.designation, b.designation);
                 });
             } else if (columnName === "SALARY") {
                 sorted = arr.sort((a, b) => {
-                    return a.salary - b.salary;
+                    return parseInt(a.salary, 10) - parseInt(b.salary, 10);
                 });
             }
         } else {
             if (columnName === "ID") {
-                sorted = arr.sort((a, b) => {
-                    var textA = a.id.toUpperCase();
-                    var textB = b.id.toUpperCase();
-                    if (textA > textB) {
-                        return -1;
-                    }
-                    if (textB > textA) {
-                        return 1;
-                    }
-                    return 0;
-                });
-            } else if (columnName === "MANAGER ID") {
-                sorted = arr.sort((a, b) => {
-                    var textA = a.manager_id.toUpperCase();
-                    var textB = b.manager_id.toUpperCase();
-                    if (textA > textB) {
-                        return -1;
-                    }
-                    if (textB > textA) {
-                        return 1;
-                    }
-                    return 0;
+                sorted = arr.sort((b, a) => {
+                    return compare(a.id, b.id);
                 });
             } else if (columnName === "FIRST NAME") {
-                sorted = arr.sort((a, b) => {
-                    var textA = a.first_name.toUpperCase();
-                    var textB = b.first_name.toUpperCase();
-                    if (textA > textB) {
-                        return -1;
-                    }
-                    if (textB > textA) {
-                        return 1;
-                    }
-                    return 0;
+                sorted = arr.sort((b, a) => {
+                    return compare(a.first_name, b.first_name);
                 });
             } else if (columnName === "LAST NAME") {
-                sorted = arr.sort((a, b) => {
-                    var textA = a.last_name.toUpperCase();
-                    var textB = b.last_name.toUpperCase();
-                    if (textA > textB) {
-                        return -1;
-                    }
-                    if (textB > textA) {
-                        return 1;
-                    }
-                    return 0;
+                sorted = arr.sort((b, a) => {
+                    return compare(a.last_name, b.last_name);
                 });
             } else if (columnName === "DATE OF BIRTH") {
-                sorted = arr.sort((a, b) => {
-                    var textA = a.date_of_birth.toUpperCase();
-                    var textB = b.date_of_birth.toUpperCase();
-                    if (textA > textB) {
-                        return -1;
-                    }
-                    if (textB > textA) {
-                        return 1;
-                    }
-                    return 0;
+                sorted = arr.sort((b, a) => {
+                    return compare(a.date_of_birth, b.date_of_birth);
                 });
             } else if (columnName === "DATE OF JOINING") {
-                sorted = arr.sort((a, b) => {
-                    var textA = a.date_of_joining.toUpperCase();
-                    var textB = b.date_of_joining.toUpperCase();
-                    if (textA > textB) {
-                        return -1;
-                    }
-                    if (textB > textA) {
-                        return 1;
-                    }
-                    return 0;
+                sorted = arr.sort((b, a) => {
+                    return compare(a.date_of_joining, b.date_of_joining);
                 });
             } else if (columnName === "ADDRESS") {
-                sorted = arr.sort((a, b) => {
-                    var textA = a.address.toUpperCase();
-                    var textB = b.address.toUpperCase();
-                    if (textA > textB) {
-                        return -1;
-                    }
-                    if (textB > textA) {
-                        return 1;
-                    }
-                    return 0;
+                sorted = arr.sort((b, a) => {
+                    return compare(a.address, b.address);
                 });
             } else if (columnName === "DESIGNATION") {
-                sorted = arr.sort((a, b) => {
-                    var textA = a.designation.toUpperCase();
-                    var textB = b.designation.toUpperCase();
-                    if (textA > textB) {
-                        return -1;
-                    }
-                    if (textB > textA) {
-                        return 1;
-                    }
-                    return 0;
+                sorted = arr.sort((b, a) => {
+                    return compare(a.designation, b.designation);
                 });
             } else if (columnName === "SALARY") {
                 sorted = arr.sort((b, a) => {
-                    return a.salary - b.salary;
+                    return parseInt(a.salary, 10) - parseInt(b.salary, 10);
                 });
             }
         }
@@ -283,19 +158,24 @@ const EmployeeTable = () => {
     return (
         <>
             <Box display="flex" justifyContent="flex-end" pt="1rem" pb="0.5rem" pr="0.5rem">
-                <input
-                    style={{
-                        width: "300px",
-                        padding: "0.4rem 1rem",
-                        border: '1px solid black',
-                        borderRadius: "5px",
-                        backgroundColor: 'f2f4f5',
-                    }}
-                    type="text"
-                    name="search"
-                    onChange={filterData}
-                    placeholder="Search Employees"
-                />
+                <Link to='/hierarchy_tree'>
+                    Hierarchy Tree
+                </Link>
+                <Tooltip title="Filter Details" arrow placement={"bottom"}>
+                    <input
+                        style={{
+                            width: "300px",
+                            padding: "0.4rem 1rem",
+                            border: '1px solid black',
+                            borderRadius: "5px",
+                            backgroundColor: 'f2f4f5',
+                        }}
+                        type="text"
+                        name="search"
+                        onChange={filterData}
+                        placeholder="Search Employees"
+                    />
+                </Tooltip>
             </Box>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -304,7 +184,9 @@ const EmployeeTable = () => {
                             {
                                 TABLE_HEADERS.map(row => {
                                     return (
-                                        <TableCell onClick={() => handleSort(row)} style={{ fontWeight: '600' }}>{row}</TableCell>
+                                        <Tooltip title={`Sort by ${row}`} arrow>
+                                            <TableCell onClick={() => handleSort(row)} style={{ fontWeight: '600', cursor: 'pointer' }}>{row}</TableCell>
+                                        </Tooltip>
                                     )
                                 })
                             }
@@ -323,14 +205,13 @@ const EmployeeTable = () => {
                                                         <TableCell style={{ color: "#4087FF", fontWeight: 'bold' }}>{employee.id}</TableCell>
                                                     </Link> : <TableCell style={{ color: "black", fontWeight: 'bold' }}>{employee.id}</TableCell>
                                             }
-                                            <TableCell>{employee.manager_id}</TableCell>
                                             <TableCell style={{ color: 'teal', fontWeight: '700' }}>{employee.first_name}</TableCell>
                                             <TableCell style={{ color: 'teal', fontWeight: '700' }}>{employee.last_name}</TableCell>
                                             <TableCell>{employee.date_of_birth}</TableCell>
-                                            <TableCell>{employee.date_of_joining}</TableCell>
                                             <TableCell>{employee.address}</TableCell>
-                                            <TableCell>{employee.designation}</TableCell>
+                                            <TableCell>{employee.date_of_joining}</TableCell>
                                             <TableCell>{employee.salary}</TableCell>
+                                            <TableCell>{employee.designation}</TableCell>
                                         </TableRow>
                                     )) :
                                     <Box sx={{ padding: '1rem 4rem' }}>
