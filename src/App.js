@@ -1,6 +1,12 @@
+import { Provider } from "react-redux";
+import EmployeeTable from "./components/EmployeeTable";
+import store from "./redux/store";
+
 const App = () => {
     return (
-        <>Hello</>
+        <Provider store={store}>
+            <EmployeeTable />
+        </Provider>
     );
 }
 
